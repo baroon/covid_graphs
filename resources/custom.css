@@ -1,0 +1,161 @@
+* {
+	-webkit-box-sizing: border-box;
+	box-sizing: border-box
+}
+
+.headiline,
+h1,
+h2,
+.h1,
+.h2 {
+	font-size: 30px;
+	font-weight: 800;
+	text-transform: uppercase
+}
+.linkLabel {
+	padding: 0px;
+	font-size: smaller;
+}
+
+a {
+	outline: none;
+	text-decoration: none
+}
+
+a:focus {
+	outline: none
+}
+
+img {
+	height: auto;
+	outline: none;
+	border-style: none
+}
+
+html,
+body {
+	height: 100%
+}
+
+body {
+	background: #fff !important;
+	color: #333333;
+	font-family: SourceSansPro-Light;
+	font-size: 14px;
+	font-weight: 400;
+	margin: 0;
+	padding-bottom: 0;
+	overflow-x: hidden;
+	text-rendering: optimizeLegibility
+}
+
+img {
+	max-width: 100%;
+	height:fit-content;
+    width:fit-content;
+}
+
+
+.header {
+	background: #ffffff;
+	-webkit-box-shadow: 0 2px 4px rgba(0, 0, 0, 0.12);
+	box-shadow: 0 2px 4px rgba(0, 0, 0, 0.12);
+	height: 60px;
+	padding-top: 14px;
+	position: relative;
+	z-index: 1
+}
+
+@media only screen and (max-width: 768px) {
+	.header {
+		z-index: 100
+	}
+}
+
+.continer-large {
+	max-width: 98%;
+	margin: auto;
+	width: 1360px
+}
+
+@media only screen and (max-width: 768px) {
+	.header .continer-large {
+		max-width: 100%;
+		padding: 0 40px
+	}
+}
+
+@media only screen and (max-width: 767px) {
+	.header .continer-large {
+		padding: 0 20px
+	}
+}
+
+.logo-widya {
+	float: left
+}
+
+.nav-top {
+	float: right;
+}
+
+@media only screen and (max-width: 768px) {
+	.nav-top {
+		display: none
+	}
+}
+
+.nav-top>ul {
+	margin: 5px 0 0
+}
+
+.nav-top li {
+	float: left;
+	list-style-type: none;
+	padding: 0 10px
+}
+.clearfix li{
+
+	border-right: 1px solid #eee;
+}
+
+.nav-top li:last-child{
+
+	border-right: none;
+}
+
+.nav-top a:not([class*="button-"]) {
+	color: #007cff;
+	font-weight: 200;
+	line-height: 22px;
+	text-transform: uppercase;
+	vertical-align: middle;
+}
+
+
+.nav-top a:not([class*="button-"]):hover {
+	text-decoration: underline
+}
+
+.hero-section {
+	background: #fff;
+	max-height: 666px;
+	overflow: hidden;
+	padding-left: calc((100% - 1220px)/2);
+	position: relative;
+	width: 100%
+}
+
+@media only screen and (max-width: 1250px) and (min-width: 1025px) {
+	.hero-section {
+		padding-left: 40px
+	}
+}
+
+@media only screen and (min-width: 769px) and (max-width: 1024px) {
+	.hero-section {
+		max-height: 655px;
+		padding-left: 15px
+	}
+}
+

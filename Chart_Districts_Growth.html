@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<body>
+	<title>WidYa Access Learning</title>
+<link href="resources/stylesheet.css" rel="stylesheet" type="text/css">
+<script src="https://d3js.org/d3.v3.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js" charset="utf-8"></script>
+<script type="text/javascript" src="resources/jquery.tipsy.js"></script>
+
+<!-- Header HTML Starts-->
+<link href="resources/custom.css" rel="stylesheet" type="text/css">
+<header class="header">
+	<div class="continer-large clearfix">
+		<a href="/" class="logo-widya">
+			<img src="resources/logo.png" width="205" height="50px" alt="WidYa" />
+		</a>
+		<nav class="nav-top">
+			<ul class="clearfix">
+				
+				<li>
+					<a href="Chart_States_Active.html"> Chart States Active</a>
+				</li>
+				<li>
+					<a href="Chart_Districts_Active.html">Chart District Active</a>
+				</li>
+				<li>
+					<a href="Chart_States_Growth.html">Chart States Growth</a>
+				</li>
+				<li>
+					<a href="Chart_Districts_Growth.html">Chart Districts Growth </a>
+				</li>
+		
+			</ul>
+		</nav>
+	</div>
+</header>
+<!-- ends here -->
+<body>
+<div id="checkboxes"> </div>
+<div id="graphic"> </div>
+<script>
+selected_states = ['[Delhi]'];
+chart_type = 'Districts';
+var unformatted_data = [];
+d3.json('inputfiles/states_names.json', function(error, data) {
+    //draw checkboxes
+    data.forEach(function(d) {
+        checks
+        .append("input")
+            .attr("type", "radio")
+            .attr("name", "region")
+            .attr("value", '[' + d + ']')
+            .attr("id", d)
+            .attr("onClick", "onChecked()");
+
+        checks.append("span")
+        .text(d);
+    });    
+});
+var checks = d3.select("#checkboxes");
+function onChecked(){
+    var choices = [];
+    d3.selectAll("input").each(function(d){
+        cb = d3.select(this);
+        if(cb.property("checked")){
+          choices.push(cb.property("value"));
+        }
+      });
+	  selected_states = choices;
+	  formatted = [];
+	  formatted = format_data(unformatted_data);
+      change();
+	}
+function format_data(data){
+    var formated_data = [];
+    data.forEach(element => {
+        for (x in element) {
+            record = new Object();
+            date = x;
+            record.date = date;
+            regions = element[x];
+                regions.forEach(el => {
+                    for (y in el){
+                        region_name = y;
+                        if (is_displayable(region_name)){
+                            record.type = "val1";
+                            region_count = el[region_name];
+                            
+                            record[region_name] = region_count;        
+                        }
+                    }
+            });
+            formated_data.push(record);                 
+        }
+    });         
+
+    return formated_data;
+}
+function is_displayable(region){
+    var is_visible = false;
+    for(var i = 0; i < selected_states.length; i++) {
+        state = selected_states[i];
+        if (region.includes(state)){
+            is_visible = true;
+            break;
+        }
+    };
+
+    return is_visible;
+}
+
+//set the margins
+var margin = {top: 50, right: 160, bottom: 80, left: 50},
+    width = 900 - margin.left - margin.right,
+    height = 500 - margin.top - margin.bottom;
+var NumbType = d3.format(".2f");
+var bluescale4 = ["#48A36D",  "#56AE7C",  "#64B98C", "#72C39B", "#80CEAA", "#80CCB3", "#7FC9BD", "#7FC7C6", "#7EC4CF", "#7FBBCF", "#7FB1CF", "#80A8CE", "#809ECE", "#8897CE", "#8F90CD", "#9788CD", "#9E81CC", "#AA81C5", "#B681BE", "#C280B7", "#CE80B0", "#D3779F", "#D76D8F", "#DC647E", "#E05A6D", "#E16167", "#E26962", "#E2705C", "#E37756", "#E38457", "#E39158", "#E29D58", "#E2AA59", "#E0B15B", "#DFB95C", "#DDC05E", "#DBC75F", "#E3CF6D", "#EAD67C", "#F2DE8A"];
+var color = d3.scale.ordinal().range(bluescale4);
+var xscaleticks = 5;
+var maketip = function (d) {			               
+			   var tip = '<p class="tip3">' + d.name + '<p class="tip1">' + NumbType(d.value) + '%</p> <p class="tip3">'+  formatDate(d.date)+'</p>';
+      		   return tip;}
+var parseDate = d3.time.format("%Y-%m-%d").parse;
+var formatDate = d3.time.format("%b %d, '%y");
+		  
+d3.select(window)
+    .on("keydown", function() { altKey = d3.event.altKey; })
+    .on("keyup", function() { altKey = false; });
+var altKey;
+
+// set terms of transition that will take place
+// when a new economic indicator is chosen   
+function change() {
+  d3.transition()
+      .duration(altKey ? 7500 : 1500)
+      .each(redraw);
+}
+
+d3.json("inputfiles/output_districts_growth.json", function(data) {
+									unformatted_data = data;
+									formatted = format_data(unformatted_data);
+							        redraw();
+    							  });
+function redraw() { 
+	d3.selectAll("svg").remove();
+
+	//create an SVG
+	var svg = d3.select("#graphic").append("svg")
+		.attr("width", width + margin.left + margin.right)
+		.attr("height", height + margin.top + margin.bottom)
+		.append("g")
+		.attr("transform", "translate(" + margin.left + "," + margin.top + ")");  
+        
+	//make a rectangle so there is something to click on
+	svg.append("svg:rect")
+		.attr("width", width)
+		.attr("height", height)
+		.attr("class", "plot");
+
+	//make a clip path for the graph  
+	var clip = svg.append("svg:clipPath")
+		.attr("id", "clip")
+		.append("svg:rect")
+		.attr("x", 0)
+		.attr("y", 0)
+		.attr("width", width)
+		.attr("height", height);   
+	
+	//create data nests based on economic indicator (series)
+    var nested = d3.nest()
+		.key(function(d) { return d.type; })
+		.map(formatted)
+    
+    // only retrieve data from the selected series, using the nest we just created
+     var data = nested['val1'];
+
+    // for object constancy we will need to set "keys", one for each type of data (column name) exclude all others.
+	color.domain(d3.keys(data[0]).filter(function(key) { return (key !== "date" && key !== "type"); }));
+
+	var linedata = color.domain().map(function(name) {
+    				return {name: name,
+					        values: data.map(function(d) {
+    							return {name:name, date: parseDate(d.date), value: parseFloat(d[name],10)};
+      						})
+    				};
+  	});
+
+	//make an empty variable to stash the last values into so i can sort the legend
+	var lastvalues=[];
+
+	//setup the x and y scales
+	var x = d3.time.scale()
+		.domain([
+	    d3.min(linedata, function(c) { return d3.min(c.values, function(v) { return v.date; }); }),
+	    d3.max(linedata, function(c) { return d3.max(c.values, function(v) { return v.date; }); })
+		])
+		.range([0, width]);
+
+	var y = d3.scale.linear()
+	    .domain([
+	    d3.min(linedata, function(c) { return d3.min(c.values, function(v) { return v.value; }); }),
+	    d3.max(linedata, function(c) { return d3.max(c.values, function(v) { return v.value; }); })
+	    ])
+	    .range([height, 0]);
+
+	//will draw the line		
+	var line = d3.svg.line()
+    	.x(function(d) { return x(d.date); })
+	    .y(function(d) { return y(d.value); });
+
+	//create and draw the x axis
+	var xAxis = d3.svg.axis()
+    	.scale(x)
+	    .orient("bottom")
+    	.tickPadding(8)
+	    .ticks(xscaleticks);
+    
+    svg.append("svg:g")
+	    .attr("class", "x axis");
+
+	//create and draw the y axis                  
+	var yAxis = d3.svg.axis()
+    	.scale(y)
+	    .orient("left")
+    	.tickSize(0-width)
+	    .tickPadding(8);
+    
+    svg.append("svg:g")
+    	.attr("class", "y axis");
+
+	//bind the data
+	var thegraph = svg.selectAll(".thegraph")
+    	.data(linedata)
+	//thegraph.remove();
+
+	//append a g tag for each line and set of tooltip circles and give it a unique ID based on the column name of the data     
+	var thegraphEnter=thegraph.enter().append("g")
+  		.attr("clip-path", "url(#clip)")
+	    .attr("class", "thegraph")
+      	.attr('id',function(d){ return d.name+"-line"; })
+	  	.style("stroke-width",2.5)
+	  	.on("mouseover", function (d) {                                  
+      		d3.select(this)                          //on mouseover of each line, give it a nice thick stroke
+        	.style("stroke-width",'6px');
+        	
+        	var selectthegraphs = $('.thegraph').not(this);     //select all the rest of the lines, except the one you are hovering on and drop their opacity
+        	d3.selectAll(selectthegraphs)
+        		.style("opacity",0.2);
+        	
+        	var getname = document.getElementById(d.name);    //use get element cause the ID names have spaces in them
+        	var selectlegend = $('.legend').not(getname);    //grab all the legend items that match the line you are on, except the one you are hovering on
+
+        	d3.selectAll(selectlegend)    // drop opacity on other legend names
+        		.style("opacity",.2);
+
+        	d3.select(getname)
+        		.attr("class", "legend-select");  //change the class on the legend name that corresponds to hovered line to be bolder        	
+    	})
+    	.on("mouseout",	function(d) {        //undo everything on the mouseout
+      		d3.select(this)
+        		.style("stroke-width",'2.5px');
+        	
+        	var selectthegraphs = $('.thegraph').not(this);
+        	d3.selectAll(selectthegraphs)
+        		.style("opacity",1);
+        	
+        	var getname = document.getElementById(d.name);
+        	var getname2= $('.legend[fakeclass="fakelegend"]')
+        	var selectlegend = $('.legend').not(getname2).not(getname);
+
+        	d3.selectAll(selectlegend)
+        		.style("opacity",1);
+        	
+        	d3.select(getname)
+        		.attr("class", "legend");        	
+    	});
+
+	//actually append the line to the graph
+	thegraphEnter.append("path")
+    	.attr("class", "line")
+      	.style("stroke", function(d) { return color(d.name); })
+      	.attr("d", function(d) { return line(d.values[0]); })
+      	.transition()
+      	.duration(2000)
+      	.attrTween('d',function (d){
+			var interpolate = d3.scale.quantile()
+				.domain([0,1])
+				.range(d3.range(1, d.values.length+1));
+			return function(t){
+				return line(d.values.slice(0, interpolate(t)));
+			};
+		});
+  
+	//then append some 'nearly' invisible circles at each data point  
+	thegraph.selectAll("circle")
+		.data( function(d) {return(d.values);} )
+		.enter()
+		.append("circle")
+			.attr("class","tipcircle")
+            .attr("cx", function(d,i)
+            {
+                return x(d.date)}
+            )
+			.attr("cy",function(d,i){
+                return y(d.value)
+            })
+			.attr("r",12)
+			.style('opacity', 1e-6)//1e-6
+			.attr ("title", maketip);
+
+	//append the legend
+    var legend = svg.selectAll('.legend')
+        .data(linedata);
+	
+	//legend.remove();	
+    var legendEnter=legend
+        .enter()
+        .append('g')
+        .attr('class', 'legend')
+        .attr('id',function(d){ return d.name; })
+        .on('click', function (d) {                           //onclick function to toggle off the lines        	
+        	if($(this).css("opacity") == 1){				  //uses the opacity of the item clicked on to determine whether to turn the line on or off        	
+
+	        	var elemented = document.getElementById(this.id +"-line");   //grab the line that has the same ID as this point along w/ "-line"  use get element cause ID has spaces
+	        	d3.select(elemented)
+	        		.transition()
+	        		.duration(500)
+	        		.style("opacity",0)
+	       			.style("display",'none');
+        	
+	        	d3.select(this)
+	        		.attr('fakeclass', 'fakelegend')
+	     			.transition()
+	        		.duration(500)
+	      			.style ("opacity", .2);
+      		} else {
+      		
+	      		var elemented = document.getElementById(this.id +"-line");
+	        	d3.select(elemented)
+		        	.style("display", "block")
+		        	.transition()
+	    	    	.duration(500)
+	        		.style("opacity",1);
+        	
+	        	d3.select(this)
+	        		.attr('fakeclass','legend')
+	      			.transition()
+	        		.duration(500)
+	      			.style ("opacity", 1);}
+		});
+
+	//actually add the circles to the created legend container
+    legendEnter.append('circle')
+        .attr('cx', width +30)
+        .attr('cy', function(d, i){
+			return i*18;})
+        .attr('r', 7)
+        .style('fill', function(d) { 
+          	return color(d.name);
+        });
+        	        	
+	//add the legend text
+    legendEnter.append('text')
+        .attr('x', width+40)
+        .attr('y', function(d, i){
+			return i*18;})
+        .text(function(d){ return d.name; });
+
+ 	 // update the axes,   
+    d3.transition(svg).select(".y.axis")
+    	.call(yAxis);   
+          
+    d3.transition(svg).select(".x.axis")
+    	.attr("transform", "translate(0," + height + ")")
+        .call(xAxis);
+
+	//make my tooltips work
+	$('circle').tipsy({opacity:.9, gravity:'n', html:true});
+
+
+	//define the zoom function
+	function zoomed() {
+ 
+    	svg.select(".x.axis").call(xAxis);
+    	svg.select(".y.axis").call(yAxis);
+
+		svg.selectAll(".tipcircle")
+			.attr("cx", function(d,i){return x(d.date)})
+			.attr("cy",function(d,i){return y(d.value)});
+			
+		svg.selectAll(".line")
+    		.attr("class","line")
+        	.attr("d", function (d) { return line(d.values)});
+	}
+
+//end of the redraw function
+}
+</script>
+</body>
