@@ -3,20 +3,37 @@
 	box-sizing: border-box
 }
 
-.headiline,
-h1,
-h2,
-.h1,
+
 .h2 {
 	font-size: 30px;
 	font-weight: 800;
 	text-transform: uppercase
 }
-.linkLabel {
-	padding: 0px;
-	font-size: smaller;
-}
+#graphic svg {overflow: inherit;}
 
+.button {		
+	border: 0;
+	border-radius: 5px;
+	cursor: pointer;
+	font-family: SourceSansPro-Light;
+	font-weight: 900;
+	outline: none;
+	padding: 15px;
+	text-decoration: none;
+	text-transform: uppercase;
+	width:fit-content;
+	height: 30px;
+}
+.github{color: #fff; background: #000;}
+.github:hover {color: #fff; background: #343a40}
+.db {color: #33a667; background: #33a66730;}
+.db:hover {color: #33a667;  background: #33a6674f;}
+.faq {color: #000; background: #e87c0d30;}
+.faq:hover {color: #000;  background: #f1850052;}
+
+h5.answer {
+    color: blue;
+}
 a {
 	outline: none;
 	text-decoration: none
@@ -108,7 +125,7 @@ img {
 .nav-top>ul {
 	margin: 5px 0 0
 }
-
+.row{padding : 40px 0 60px 0;}
 .nav-top li {
 	float: left;
 	list-style-type: none;
@@ -131,7 +148,6 @@ img {
 	text-transform: uppercase;
 	vertical-align: middle;
 }
-
 
 .nav-top a:not([class*="button-"]):hover {
 	text-decoration: underline

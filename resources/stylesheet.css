@@ -1,17 +1,23 @@
 svg{
   overflow: visible;
 }
-#checkboxes span{
-  width: 13%;
-    display: inline-block;
-    font-family: SourceSansPro-Light;
-    font-size: smaller;
-}
-#checkboxes{
-
+#selectors{
   padding-top:12px;
   padding-left: 12px;
-
+  margin-left: 18px;
+}
+#selectors > div{
+  display: inline-block;
+  width: 14%;
+  vertical-align: top;
+}
+#selectors > div span{
+  position: relative;
+  top: -3px;
+  left: 5px;
+}
+.footerlinks{
+  padding-left: 100px;
 }
 .plot{
     fill: #fff;

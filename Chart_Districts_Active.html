@@ -1,11 +1,26 @@
 <!DOCTYPE html>
 <meta charset="utf-8">
-<body>
+<head>
+	<meta charset="utf-8">
 	<title>WidYa Access Learning</title>
-<link href="resources/stylesheet.css" rel="stylesheet" type="text/css">
-<script src="https://d3js.org/d3.v3.min.js"></script>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js" charset="utf-8"></script>
-<script type="text/javascript" src="resources/jquery.tipsy.js"></script>
+	<!-- Latest compiled and minified CSS -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+	<!-- Optional theme -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+	<link href="resources/stylesheet.css" rel="stylesheet" type="text/css">
+	<link href="resources/custom.css" rel="stylesheet" type="text/css">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+	<!-- Latest compiled and minified JavaScript -->
+
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>	
+
+	<script src="https://d3js.org/d3.v3.min.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js" charset="utf-8"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+	<script type="text/javascript" src="resources/jquery.tipsy.js"></script>
+</head>
+<body>
 
 <!-- Header HTML Starts-->
 <link href="resources/custom.css" rel="stylesheet" type="text/css">
@@ -22,10 +37,9 @@
 				</li>
 				<li>
 					<a href="Chart_Districts_Active.html">Chart District Active</a>
-					<span></span>
 				</li>
 				<li>
-					<a href="Chart_States_Growth.html">Chart States Growth</a><br>
+					<a href="Chart_States_Growth.html">Chart States Growth</a>
 				</li>
 				<li>
 					<a href="Chart_Districts_Growth.html">Chart Districts Growth</a>
@@ -36,30 +50,33 @@
 	</div>
 </header>
 <!-- ends here -->
-
-<body>
-<div id="checkboxes"> </div>
+<div style="height: 110px;">
+<div id="selectors"> </div>
+</div>
+<div class="container" style="height:500px; margin-left: 10px;" >
 <div id="graphic"> </div>
+</div>
 <script>
 selected_states = ['[Delhi]'];
 chart_type = 'Districts';
 var unformatted_data = [];
 d3.json('inputfiles/states_names.json', function(error, data) {
-    //draw checkboxes
-    data.forEach(function(d) {
-        checks
-        .append("input")
+    //draw checkboxes 
+	//made some changes here
+    data.forEach(function(d,i) {
+        checks.append("div").attr("class","dist"+i);
+        var outerDiv = d3.select(".dist"+i);
+    outerDiv.append("input")
             .attr("type", "radio")
             .attr("name", "region")
             .attr("value", '[' + d + ']')
             .attr("id", d)
             .attr("onClick", "onChecked()");
-
-        checks.append("span")
+            outerDiv.append("span")
         .text(d);
     });    
 });
-var checks = d3.select("#checkboxes");
+var checks = d3.select("#selectors");
 function onChecked(){
     var choices = [];
     d3.selectAll("input").each(function(d){
@@ -398,4 +415,26 @@ function redraw() {
 //end of the redraw function
 }
 </script>
+<!--Footer HTML Starts-->
+<footer class="fadeInUp footer">
+	<div class="row">
+	    <div style="text-align: center;" class="col-md-4 col-sm-4 col-xs-12">
+			<a class="button github" href="https://github.com/baroon/covid_graphs"  target="_blank" rel="noopener noreferrer">
+				<i style="margin-right: 10px; font-size: 20px;" class="fa fa-github"></i>Open Sourced on GitHub
+			</a> 	
+		</div>
+		<div style="text-align: center;" class="col-md-4 col-sm-4 col-xs-12">
+			<a class="button db" href="http://patientdb.covid19india.org" target="_blank" rel="noopener noreferrer">
+				<i style="margin-right: 10px; font-size: 20px;" class="fa fa-database"></i>Crowdsourced Patient Database 
+			</a> 	
+		</div>
+		
+		<div style="text-align: center;" class="col-md-4 col-sm-4 col-xs-12">
+			<a href="FAQ.html" class="button faq" target="_blank" rel="noopener noreferrer">
+				<i style="margin-right: 10px; font-size: 20px;" class="fa fa-question"></i>Frequently Asked Questions 
+			</a> 	
+		</div>
+	</div>
+</footer>
+<!-- ends here-->
 </body>
