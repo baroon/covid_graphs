@@ -1,0 +1,4 @@
+{
+    "appService.defaultWebAppToDeploy": "/subscriptions/d0c35734-c051-4d9f-aa23-de58c0dee375/resourceGroups/WidYa-CG/providers/Microsoft.Web/sites/widya-cg",
+    "appService.deploySubpath": ""
+}
