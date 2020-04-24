@@ -1,0 +1,107 @@
+<!DOCTYPE html> 
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<meta charset="utf-8">
+	<title>WidYa Access Learning</title>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+	<link href="resources/stylesheet.css" rel="stylesheet" type="text/css">
+	<link href="resources/custom.css" rel="stylesheet" type="text/css">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+	<!-- Latest compiled and minified JavaScript -->
+
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>	
+
+	<script src="https://d3js.org/d3.v3.min.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js" charset="utf-8"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+	<script type="text/javascript" src="resources/jquery.tipsy.js"></script>
+	
+</head>
+<body>
+<!-- Header HTML Starts-->
+
+<header class="header">
+	<div class="continer-large clearfix">
+		<a href="/" class="logo-widya">
+			<img src="resources/logo.png" width="205" height="50px" alt="WidYa" />
+		</a>
+		<nav class="nav-top">
+			<ul class="clearfix">
+				
+				<li>
+					<a href="Chart_States_Active.html"> Chart States Active</a>
+				</li>
+				<li>
+					<a href="Chart_Districts_Active.html">Chart District Active</a>
+				</li>
+				<li>
+					<a href="Chart_States_Growth.html">Chart States Growth</a>
+				</li>
+				<li>
+					<a href="Chart_Districts_Growth.html">Chart Districts Growth </a>
+				</li>
+		
+			</ul>
+		</nav>
+	</div>
+</header>
+<!-- ends here -->
+<div class="container">
+	<div class="FAQpage">
+        <div class="fadeInUp" style="animation-delay: 0.5s;">
+        <h5 class="question">Are you official?</h5>
+        <h5 class="answer">No.</h5>
+        </div>
+        
+        <div class="fadeInUp" style="animation-delay: 0.6s;">
+        <h5 class="question">What are your sources? How is the data gathered for this project?</h5>
+        <h5 class="answer">We are using state bulletins and official handles to update our numbers. The data is validated by a group of volunteers and published into a Google sheet and an API. API is available for all at api.covid19india.org. We would love it if you can use this data in the fight against this virus. The source <a href="https://telegra.ph/Covid-19-Sources-03-19">list is here.</a>
+        </h5>
+        </div>
+        
+        <div class="fadeInUp" style="animation-delay: 0.7s;">
+        <h5 class="question">Why does covid19india.org have more positive count than MoH?</h5>
+        <h5 class="answer">MoHFW updates the data at a scheduled time. However, we update them based on state press bulletins, official (CM, Health M) handles, PBI, Press Trust of India, ANI reports. These are generally more recent.</h5>
+        </div>
+        
+        <div class="fadeInUp" style="animation-delay: 0.8s;">
+        <h5 class="question">Where can I find the data for this?</h5>
+        <h5 class="answer">You can preview all the data collected in this page : patientdb.covid19india.org .
+        All the data is available through an API for further analysis and development here : api.covid19india.org </h5>
+        </div>
+        
+        <div class="fadeInUp" style="animation-delay: 0.9s;">
+        <h5 class="question">Who are you?</h5>
+        <h5 class="answer">We are a group of dedicated volunteers who curate and verify the data coming from several sources. We extract the details, like a patient's relationship with other patients to identify local and community transmissions, travel history and status. We never collect or expose any personally identifiable data regarding the patients.</h5>
+        </div>
+        
+        <div class="fadeInUp" style="animation-delay: 1s;">
+        <h5 class="question">Why are you guys putting in time and resources to do this while not gaining a single penny from it?</h5>
+        <h5 class="answer">Because it affects all of us. Today it's someone else who is getting infected; tomorrow it could be us. We need to prevent the spread of this virus. We need to document the data so that people with knowledge can use this data to make informed decisions.</h5>
+        </div>
+        </div>
+        
+</div>
+<footer class="fadeInUp footer">
+	<div class="row">
+	    <div style="text-align: center;" class="col-md-4 col-sm-4 col-xs-12">
+			<a class="button github" href="https://github.com/baroon/covid_graphs"  target="_blank" rel="noopener noreferrer">
+				<i style="margin-right: 10px; font-size: 20px;" class="fa fa-github"></i>Open Sourced on GitHub
+			</a> 	
+		</div>
+		<div style="text-align: center;" class="col-md-4 col-sm-4 col-xs-12">
+			<a class="button db" href="http://patientdb.covid19india.org" target="_blank" rel="noopener noreferrer">
+				<i style="margin-right: 10px; font-size: 20px;" class="fa fa-database"></i>Crowdsourced Patient Database 
+			</a> 	
+		</div>
+		
+		<div style="text-align: center;" class="col-md-4 col-sm-4 col-xs-12">
+			<a href="FAQ.html" class="button faq" target="_blank" rel="noopener noreferrer">
+				<i style="margin-right: 10px; font-size: 20px;" class="fa fa-question"></i>Frequently Asked Questions 
+			</a> 	
+		</div>
+	</div>
+</footer>
+</body>
+</html>
