@@ -77,8 +77,6 @@ img {
 	background: #ffffff;
 	-webkit-box-shadow: 0 2px 4px rgba(0, 0, 0, 0.12);
 	box-shadow: 0 2px 4px rgba(0, 0, 0, 0.12);
-	height: 60px;
-	padding-top: 14px;
 	position: relative;
 	z-index: 1
 }
@@ -123,7 +121,7 @@ img {
 }
 
 .nav-top>ul {
-	margin: 5px 0 0
+	margin: 10px 0 0
 }
 .row{padding : 40px 0 60px 0;}
 .nav-top li {
