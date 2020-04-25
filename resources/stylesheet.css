@@ -4,17 +4,18 @@ svg{
 #selectors{
   padding-top:12px;
   padding-left: 12px;
-  margin-left: 18px;
 }
 #selectors > div{
   display: inline-block;
-  width: 14%;
+  width: 20%;
   vertical-align: top;
+  overflow: hidden;
 }
 #selectors > div span{
   position: relative;
   top: -3px;
   left: 5px;
+  overflow: hidden;
 }
 .footerlinks{
   padding-left: 100px;
