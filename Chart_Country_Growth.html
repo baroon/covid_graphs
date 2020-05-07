@@ -49,49 +49,29 @@
 	</div>
 </header>
 <!-- ends here -->
-		<div id="graphic"> </div>
+	<div id="graphic"> </div>
 <script>
-selected_states = [];
-var unformatted_data = [];
-d3.json('inputfiles/states_names.json', function(error, data) {
-    selected_states = data;
-});
 function format_data(data){
     var formated_data = [];
     data.forEach(element => {
-        for (x in element) {
-            record = new Object();
-            date = x;
-            record.date = date;
-            regions = element[x];
-                regions.forEach(el => {
-                    for (y in el){
-                        region_name = y;
-                        if (is_displayable(region_name)){
-                            record.type = "val1";
-                            region_count = el[region_name];
-                            
-                            record[region_name] = region_count;        
-                        }
-                    }
-            });
-            formated_data.push(record);                 
-        }
+		date = element['DateAnnounced'];
+		var record;
+		region = element["Location"];
+		count = element["Records"];
+		if (!formated_data.filter(e => e.date === date).length > 0) {
+			record = new Object();
+			record.date = date;
+			formated_data.push(record);		
+			record[region] = count;
+		}
+		else {
+			record = formated_data.filter(e => e.date === date);
+			record[0][region] = count;
+		}
+		record.type = "val1";
     });         
 
     return formated_data;
-}
-function is_displayable(region){
-    var is_visible = false;
-    for(var i = 0; i < selected_states.length; i++) {
-        state = selected_states[i];
-        if (region.includes(state)){
-            is_visible = true;
-            break;
-        }
-    };
-
-    return is_visible;
 }
 
 //set the margins
@@ -103,9 +83,9 @@ var bluescale4 = ["#66CDAA", "#D8BFD8", "#99CCFF", "#FF9999", "#FFCC33", "#CC996
 var color = d3.scale.ordinal().range(bluescale4);
 var xscaleticks = 5;
 var maketip = function (d) {			               
-			   var tip = '<p class="tip3">' + d.name + '<p class="tip1">' + NumbType(d.value) + '%</p> <p class="tip3">'+  formatDate(d.date)+'</p>';
+			   var tip = '<p class="tip3">' + d.name + '<p class="tip1">' + NumbType(d.value) + '</p> <p class="tip3">'+  formatDate(d.date)+'</p>';
       		   return tip;}
-var parseDate = d3.time.format("%Y-%m-%d").parse;
+var parseDate =  d3.time.format("%Y-%m-%d").parse;
 var formatDate = d3.time.format("%b %d, '%y");
 		  
 d3.select(window)
@@ -121,7 +101,7 @@ function change() {
       .each(redraw);
 }
 
-d3.json("inputfiles/output_states_growth.json", function(data) {
+d3.json("inputfiles/output_country_growth.json", function(data) {
 									unformatted_data = data;
 									formatted = format_data(unformatted_data);
 							        redraw();
@@ -165,7 +145,7 @@ function redraw() {
 	var linedata = color.domain().map(function(name) {
     				return {name: name,
 					        values: data.map(function(d) {
-    							return {name:name, date: parseDate(d.date), value: parseFloat(d[name],10)};
+    							return {name:name, date: new Date(Date.parse(d.date)), value: parseFloat(d[name],10)};
       						})
     				};
   	});
@@ -382,12 +362,9 @@ function redraw() {
 </script>
 <hr>
 <div class="graph_text">
-	Growth Rate calculates a 'day on day' increment of Active cases in a region as a percentage. 
-	For example
-	if the No of Active cases on a certain day <i>(day X)</i> were 10, and the no of Active cases 
-	the next day <i>(day Y)</i> were 15. The Growth Rate is calculated as <b>(Y - X) / 100 </b> 
-	i.e. 50%. Negative Growth Rate i.e. recovery higher than growth, are normalized to 0 to fit the graph better.<br>
-	Active Rate is meant to display a day by day growth trend of the spread.  
+	Active cases reflect the no of live cases in a region after discarding recovered, migrated, and deceased cases.<br> 
+	It is calculated as <i>Total cases - Migrated cases - Recovered Cases - Deceased cases.</i><br>
+	Active chart is meant to display a day by day growth trend of the spread.  
 </div>
 <hr>
 <!--Footer HTML Starts-->

@@ -3,7 +3,6 @@
 <head>
 	<meta charset="utf-8">
 	<title>WidYa Access Learning</title>
-	<link href='https://fonts.googleapis.com/css?family=Source+Sans+Pro' rel='stylesheet' type='text/css'>
 	<!-- Latest compiled and minified CSS -->
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
 
@@ -22,7 +21,6 @@
 	<script type="text/javascript" src="resources/jquery.tipsy.js"></script>
 </head>
 <body>
-
 <!-- Header HTML Starts-->
 <link href="resources/custom.css" rel="stylesheet" type="text/css">
 <header class="header">
@@ -43,7 +41,7 @@
 					<a href="Chart_States_Growth.html">Chart States Growth</a>
 				</li>
 				<li>
-					<a href="Chart_Districts_Growth.html">Chart Districts Growth</a>
+					<a href="Chart_Districts_Growth.html">Chart Districts Growth </a>
 				</li>
 		
 			</ul>
@@ -51,14 +49,15 @@
 	</div>
 </header>
 <!-- ends here -->
-<div id="selectors"> </div>
+	<div id="selectors"> </div>
+
 <div id="graphic"> </div>
 <script>
 selected_states = ['[Delhi]'];
 chart_type = 'Districts';
 var unformatted_data = [];
 d3.json('inputfiles/states_names.json', function(error, data) {
-    //draw checkboxes 
+    //draw checkboxes
 	//made some changes here
     data.forEach(function(d,i) {
         checks.append("div").attr("class","dist"+i);
@@ -134,7 +133,7 @@ var bluescale4 = ["#66CDAA", "#D8BFD8", "#99CCFF", "#FF9999", "#FFCC33", "#CC996
 var color = d3.scale.ordinal().range(bluescale4);
 var xscaleticks = 5;
 var maketip = function (d) {			               
-			   var tip = '<p class="tip3">' + d.name + '<p class="tip1">' + NumbType(d.value) + '</p> <p class="tip3">'+  formatDate(d.date)+'</p>';
+			   var tip = '<p class="tip3">' + d.name + '<p class="tip1">' + NumbType(d.value) + '%</p> <p class="tip3">'+  formatDate(d.date)+'</p>';
       		   return tip;}
 var parseDate = d3.time.format("%Y-%m-%d").parse;
 var formatDate = d3.time.format("%b %d, '%y");
@@ -152,7 +151,7 @@ function change() {
       .each(redraw);
 }
 
-d3.json("inputfiles/output_districts_active.json", function(data) {
+d3.json("inputfiles/output_districts_growth.json", function(data) {
 									unformatted_data = data;
 									formatted = format_data(unformatted_data);
 							        redraw();
@@ -393,6 +392,7 @@ function redraw() {
 	//make my tooltips work
 	$('circle').tipsy({opacity:.9, gravity:'n', html:true});
 
+
 	//define the zoom function
 	function zoomed() {
  
@@ -413,9 +413,13 @@ function redraw() {
 </script>
 <hr>
 <div class="graph_text">
-	Active cases reflect the no of live cases in a region after discarding recovered, migrated, and deceased cases.<br> 
-	It is calculated as <i>Total cases - Migrated cases - Recovered Cases - Deceased cases.</i><br>
-	Active chart is meant to display a day by day growth trend of the spread.  
+	Growth Rate calculates a 'day on day' increment of Active cases in a region as a percentage. 
+	It compares the cases on a given day with the previous day. <br>
+	For example
+	if the No of Active cases on a certain day <i>(day X)</i> were 10, and the no of Active cases 
+	the next day <i>(day Y)</i> were 15. The Growth Rate is calculated as <i>(Y - X) / 100 </i>  
+	i.e. 50%. <br>Negative Growth Rate i.e. recovery higher than growth, are normalized to 0% to fit the graph better.<br>
+	Growth Rate is meant to display a day on day growth trend of the spread as a percentage.  
 </div>
 <hr>
 <!--Footer HTML Starts-->
