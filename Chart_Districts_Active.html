@@ -86,27 +86,26 @@ function onChecked(){
 	  formatted = format_data(unformatted_data);
       change();
 	}
-function format_data(data){
+	function format_data(data){
     var formated_data = [];
     data.forEach(element => {
-        for (x in element) {
-            record = new Object();
-            date = x;
-            record.date = date;
-            regions = element[x];
-                regions.forEach(el => {
-                    for (y in el){
-                        region_name = y;
-                        if (is_displayable(region_name)){
-                            record.type = "val1";
-                            region_count = el[region_name];
-                            
-                            record[region_name] = region_count;        
-                        }
-                    }
-            });
-            formated_data.push(record);                 
-        }
+		date = element['DateAnnounced'];
+		var record;
+		region = element["Location"];
+		count = element["Records"];
+		if (is_displayable(region)){
+			if (!formated_data.filter(e => e.date === date).length > 0) {
+				record = new Object();
+				record.date = date;
+				formated_data.push(record);		
+				record[region] = count;
+			}
+			else {
+				record = formated_data.filter(e => e.date === date);
+				record[0][region] = count;
+			}
+			record.type = "val1";
+		}
     });         
 
     return formated_data;
@@ -135,7 +134,6 @@ var xscaleticks = 5;
 var maketip = function (d) {			               
 			   var tip = '<p class="tip3">' + d.name + '<p class="tip1">' + NumbType(d.value) + '%</p> <p class="tip3">'+  formatDate(d.date)+'</p>';
       		   return tip;}
-var parseDate = d3.time.format("%Y-%m-%d").parse;
 var formatDate = d3.time.format("%b %d, '%y");
 		  
 d3.select(window)
@@ -195,7 +193,7 @@ function redraw() {
 	var linedata = color.domain().map(function(name) {
     				return {name: name,
 					        values: data.map(function(d) {
-    							return {name:name, date: parseDate(d.date), value: parseFloat(d[name],10)};
+    							return {name:name, date: new Date(Date.parse(d.date)), value: parseFloat(d[name],10)};
       						})
     				};
   	});

@@ -104,7 +104,6 @@ var xscaleticks = 5;
 var maketip = function (d) {			               
 			   var tip = '<p class="tip3">' + d.name + '<p class="tip1">' + NumbType(d.value) + '</p> <p class="tip3">'+  formatDate(d.date)+'</p>';
       		   return tip;}
-var parseDate =  d3.time.format("%Y-%m-%d").parse;
 var formatDate = d3.time.format("%b %d, '%y");
 		  
 d3.select(window)
