@@ -149,7 +149,7 @@ function change() {
       .each(redraw);
 }
 
-d3.json("inputfiles/output_districts_growth.json", function(data) {
+d3.json("inputfiles/output_districts_active.json", function(data) {
 									unformatted_data = data;
 									formatted = format_data(unformatted_data);
 							        redraw();
