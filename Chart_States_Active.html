@@ -25,31 +25,42 @@
 <link href="resources/custom.css" rel="stylesheet" type="text/css">
 <header class="header">
 	<div class="continer-large clearfix">
+		<div class="row" style="padding: 5px;">
+			<div class="col-sm-2">
 		<a href="/" class="logo-widya">
 			<img src="resources/logo.png" width="205" height="50px" alt="WidYa" />
 		</a>
+			</div>
+			<div class="col-sm-10"  style="padding-left: 5px;">
 		<nav class="nav-top">
 			<ul class="clearfix">
-				
 				<li>
-					<a href="Chart_States_Active.html"> Chart States Active</a>
+					<a href="Chart_Country_Active.html">Country Active</a>
 				</li>
 				<li>
-					<a href="Chart_Districts_Active.html">Chart District Active</a>
+					<a href="Chart_Country_Growth.html">Country Growth</a>
 				</li>
 				<li>
-					<a href="Chart_States_Growth.html">Chart States Growth</a>
+					<a href="Chart_States_Active.html">States Active</a>
 				</li>
 				<li>
-					<a href="Chart_Districts_Growth.html">Chart Districts Growth </a>
+					<a href="Chart_States_Growth.html">States Growth</a>
+				</li>
+				<li>
+					<a href="Chart_Districts_Active.html">District Active</a>
+				</li>
+				<li>
+					<a href="Chart_Districts_Growth.html">Districts Growth </a>
 				</li>
 		
 			</ul>
 		</nav>
 	</div>
+	</div>
+	</div>
 </header>
 <!-- ends here -->
-		<div id="graphic"> </div>
+		<div id="graphic" style="min-height: 630px;"> </div>
 <script>
 selected_states = [];
 var unformatted_data = [];
@@ -97,12 +108,12 @@ function is_displayable(region){
 var margin = {top: 20, right: 50, bottom: 10, left: 50},
     width = 840 - margin.left - margin.right,
     height = 590 - margin.top - margin.bottom;
-var NumbType = d3.format(".2f");
+var NumbType = d3.format("");
 var bluescale4 = ["#66CDAA", "#D8BFD8", "#99CCFF", "#FF9999", "#FFCC33", "#CC9966","#CC99CC", "#DA70D6", "#F0E68C", "#B0C4DE", "#FF69B4", "#52BAF2", "#FFDAB9", "#FA8072", "#BDB76B", "#BA55D3", "#8A2BE2", "#AFEEEE", "#BC8F8F", "#C0C0C0", "#FF00FF", "#CCCC66", "#FFDEAD", "#CD853F", "#33FFCC", "#CC9999", "#E38457", "#FFCC66", "#330000", "#E2AA59", "#666600", "#DFB95C", "#DDC05E", "#CC33CC", "#CCCCCC", "#6600FF", "#6633FF"];
 var color = d3.scale.ordinal().range(bluescale4);
 var xscaleticks = 5;
 var maketip = function (d) {			               
-			   var tip = '<p class="tip3">' + d.name + '<p class="tip1">' + NumbType(d.value) + '%</p> <p class="tip3">'+  formatDate(d.date)+'</p>';
+			   var tip = '<p class="tip3">' + d.name + '<p class="tip1">' + NumbType(d.value) + '</p> </br> <p class="tip3">'+  formatDate(d.date)+'</p>';
       		   return tip;}
 var formatDate = d3.time.format("%b %d, '%y");
 		  
@@ -380,12 +391,9 @@ function redraw() {
 </script>
 <hr>
 <div class="graph_text">
-	Growth Rate calculates a 'day on day' increment of Active cases in a region as a percentage. 
-	For example
-	if the No of Active cases on a certain day <i>(day X)</i> were 10, and the no of Active cases 
-	the next day <i>(day Y)</i> were 15. The Growth Rate is calculated as <b>(Y - X) / 100 </b> 
-	i.e. 50%. Negative Growth Rate i.e. recovery higher than growth, are normalized to 0 to fit the graph better.<br>
-	Active Rate is meant to display a day by day growth trend of the spread.  
+	Active cases reflect the no of live cases in a region after discarding recovered, migrated, and deceased cases.<br> 
+	It is calculated as <i>Total cases - Migrated cases - Recovered Cases - Deceased</i> cases.<br>
+	Active chart is meant to display a day by day cumulative growth of the spread.  
 </div>
 <hr>
 <!--Footer HTML Starts-->
